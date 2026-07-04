@@ -9,6 +9,10 @@ const rootRouter = require('./routes/index');
 
 app.use('/api/v1', rootRouter);
 
+app.get('/', (req, res) => {
+    res.send("Welcome to the blog app");
+});
+
 app.listen(3000, () => {
     console.log("your port is listening at port 3000");
 })
