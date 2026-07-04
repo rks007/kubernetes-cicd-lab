@@ -1,0 +1,31 @@
+services:
+  mongo:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --eval 'db.adminCommand({ ping: 1 })' || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  blog-app:
+    build: ./
+    container_name: blog-app
+    ports:
+      - "3000:3000" 
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/blogdb
+      - NODE_ENV=production
+    restart: always
+    depends_on:
+      mongo:
+        condition: service_healthy
+
+volumes:
+  mongodb-data:
