@@ -5,7 +5,7 @@ resources:
   - ../../application
   - hpa.yml
 patches:
-  - path: resources-patch.yaml
+  - path: resources-patch.yml
     target:
       kind: Deployment
       name: blog-app-deployment
