@@ -3,7 +3,7 @@ kind: Kustomization
 
 resources:
   - ../../application
-  - hpa.yaml
+  - hpa.yml
 patches:
   - path: resources-patch.yaml
     target:
