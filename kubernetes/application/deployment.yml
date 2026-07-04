@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kustom-deployment
+  name: blog-app-deployment
   namespace: kustom
   labels:
     app: blog-app
