@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: blog-app-container
-          image: rks007/kustomize:7adc6be1b60552b18e54d6602f33d3a3b434a3af
+          image: rks007/kustomize:039ea258729c3704fd72d3221b31789c1ff277f2
           imagePullPolicy: Always
           ports:
             - containerPort: 3000
