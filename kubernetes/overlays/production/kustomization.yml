@@ -28,3 +28,10 @@ patches:
       - op: replace
         path: /spec/rules/0/backendRefs/0/name
         value: prod-blog-app-service
+  - target:
+      kind: ConfigMap
+      name: kustom-config
+    patch: |-
+      - op: replace
+        path: /data/MONGO_URI
+        value: "mongodb://prod-mongo-service:27017/blogging"      
