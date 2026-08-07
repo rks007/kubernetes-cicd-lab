@@ -5,7 +5,7 @@ on:
       - master
     paths-ignore:
       - "README.md"
-      - "Kubernetes/**"
+      - "kubernetes/**"
   
 jobs:
   gitleaks-scan:
