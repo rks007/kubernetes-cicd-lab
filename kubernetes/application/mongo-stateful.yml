@@ -14,6 +14,10 @@ spec:
       labels:
         app: mongodb
     spec:
+      securityContext:
+        fsGroup: 999
+        fsGroupChangePolicy: OnRootMismatch
+
       containers:
         - name: mongodb
           image: mongodb/mongodb-community-server:latest
