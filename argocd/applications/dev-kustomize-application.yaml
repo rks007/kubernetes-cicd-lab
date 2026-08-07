@@ -11,7 +11,7 @@ spec:
     path: kubernetes/overlays/dev
   destination:
     server: https://kubernetes.default.svc
-    namespace: dev-kustom
+    namespace: kustom
   syncPolicy:
     automated:
       prune: true
