@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/rks007/kubernetes-cicd-lab.git
     targetRevision: HEAD
-    path: kubernetes/overlays/dev
+    path: kubernetes/overlays/production
   destination:
     server: https://kubernetes.default.svc
     namespace: kustom
