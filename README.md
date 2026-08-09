@@ -4,6 +4,9 @@
 ![Kubernetes](https://img.shields.io/badge/Kubernetes-EKS-326CE5?logo=kubernetes&logoColor=white)
 ![ArgoCD](https://img.shields.io/badge/GitOps-ArgoCD-EF7B4D?logo=argo&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Container-2496ED?logo=docker&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-Metrics-E6522C?logo=prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-Dashboards-F46800?logo=grafana&logoColor=white)
+![Loki](https://img.shields.io/badge/Grafana%20Loki-Logs-F46800?logo=grafana&logoColor=white)
 
 A Node.js/Express blog API deployed on **AWS EKS** using a secure, GitOps-driven CI/CD pipeline — built as a hands-on DevOps/SRE lab to practice production-style patterns: shift-left security scanning, SBOM generation, Kustomize environment overlays, Gateway API routing, and ArgoCD auto-sync.
 
