@@ -12,6 +12,7 @@ const rootRouter = require('./routes/index');
 app.use('/api/v1', rootRouter);
 
 app.get('/', (req, res) => {
+    console.log("Welcome to the blog app");
     res.send("Welcome to the blog app");
 });
 
