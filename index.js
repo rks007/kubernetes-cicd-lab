@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
+const morgan = require('morgan');
 dotenv.config();
 
+app.use(morgan('combined'));   // logs every request to stdout
 app.use(express.json());
 
 const rootRouter = require('./routes/index');
