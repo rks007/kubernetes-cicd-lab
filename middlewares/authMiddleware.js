@@ -1,9 +1,11 @@
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = require('../config');
+const logger = require('../lib/logger');
 
 function authMiddleware(req, res, next){
     const header = req.headers.authorization;
     if(!header.startsWith("Bearer ")){
+        logger.error("Invalid authorization header");
         return res.status(403).json({});
     }
     const gettoken = header.split(" ");
@@ -16,12 +18,13 @@ function authMiddleware(req, res, next){
             req.userId = decodeValue.userId;
             next();
         }else{
+            logger.error("User not authenticated");
             return res.status(401).json({
                 msg: "you are not authenticated"
             })
         }
     } catch (error) {
-        console.log("error occurs");
+        logger.error("Error occurred while verifying token");
         return res.status(500).json({
             msg: "internal server error"
         })

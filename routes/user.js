@@ -6,6 +6,7 @@ const userInput = require('../inputValidation/userValidation');
 const { User, Blog } = require('../db/db');
 const authMiddleware = require('../middlewares/authMiddleware');
 const blogInput = require('../inputValidation/blogValidation');
+const logger = require('../lib/logger');
 const router = express.Router();
 
 router.post('/signup', async (req, res) => {
@@ -18,6 +19,7 @@ router.post('/signup', async (req, res) => {
         username, password, firstName, lastName
     })
     if(!parsedCredentials.success){
+        logger.error("wrong inputs provided for signup");
         return res.status(400).json({
             msg: "wrong inputs"
         })
@@ -28,6 +30,7 @@ router.post('/signup', async (req, res) => {
             username: username
         })
         if(userExist){
+            logger.error("user already exist");
             return res.status(401).json({
                 msg:"user already exist"
             })
@@ -47,12 +50,13 @@ router.post('/signup', async (req, res) => {
         
         const token = jwt.sign({userId}, JWT_SECRET);
     
+        logger.info("User created successfully");
         res.status(200).json({
             msg: "User created successfully",
             token: token
         })
     } catch (error) {
-        console.error(error);
+        logger.error("Server error during signup");
         res.status(500).json({ msg: "Server error" });
     }
 
@@ -66,6 +70,7 @@ router.post('/signin', async (req, res) => {
         username, password
     })
     if(!parsedCredentials.success){
+        logger.error("wrong inputs provided for signin");
         return res.status(400).json({
             msg: "wrong inputs"
         })
@@ -77,6 +82,7 @@ router.post('/signin', async (req, res) => {
         })
     
         if(!validUser){
+            logger.error("not an existing user, first signup");
             res.status(401).json({
                 msg: "not a existing user, first signup"
             })
@@ -84,6 +90,7 @@ router.post('/signin', async (req, res) => {
     
         const isMatch = await bcrypt.compare(password, validUser.password);
         if (!isMatch) {
+            logger.error("Invalid credentials");
             return res.status(401).json({ 
                 msg: "Invalid credentials" 
             });
@@ -91,38 +98,50 @@ router.post('/signin', async (req, res) => {
     
         const userId = validUser._id;
         const token = jwt.sign({userId}, JWT_SECRET);
+        logger.info("User signed in successfully");
         res.status(200).json({
             token: token
         })
     } catch (error) {
-        console.error(error);
+        logger.error("Server error during signin");
         res.status(500).json({ msg: "Server error" });
     }
 
 })
 
-router.post('/create', authMiddleware, (req, res) => {
+router.post('/create', authMiddleware, async (req, res) => {
+
     const title = req.body.title;
     const description = req.body.description;
 
-    const parsedCredentials = blogInput.safeParse({
-        title, description
-    })
-    if(!parsedCredentials.success){
-        return res.status(401).json({
-            msg: "wrong input"
+    try {
+
+        const parsedCredentials = blogInput.safeParse({
+            title, description
+        })
+        if(!parsedCredentials.success){
+            logger.error("wrong inputs provided for blog creation");
+            return res.status(401).json({
+                msg: "wrong input"
+            })
+        }
+
+        const newBlog = Blog.create({
+            userId: req.userId,
+            title: title,
+            description: description
+        })
+
+        logger.info("blog created successfully");
+        res.status(200).json({
+            msg: "blog created successfully"
+        })
+    } catch (err) {
+        logger.error("error creating blog");
+        res.status(500).json({
+            msg: "internal server error"
         })
     }
-
-    const newBlog = Blog.create({
-        userId: req.userId,
-        title: title,
-        description: description
-    })
-
-    res.status(200).json({
-        msg: "blog created successfully"
-    })
 })
 
 module.exports = router;
